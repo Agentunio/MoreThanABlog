@@ -1,9 +1,10 @@
 import { Application } from "@hotwired/stimulus"
-
-const application = Application.start()
+import { eagerLoadControllersFrom } from "@hotwired/stimulus-loading"
+export const application = Application.start()
 
 // Configure Stimulus development experience
+window.Stimulus  = application
 application.debug = false
-window.Stimulus   = application
 
-export { application }
+eagerLoadControllersFrom("controllers", application)
+

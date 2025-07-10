@@ -27,6 +27,10 @@
 .toast-body{
   background-color: white !important;
 }
+.image{
+  width: 300px; 
+  height: auto;
+}
 footer{
   color: white; 
 }

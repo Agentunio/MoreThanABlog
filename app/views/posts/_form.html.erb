@@ -18,19 +18,15 @@
   </div>
 
   <div>
-    <%= form.label :body, "Treść", class: "form-label d-block mt-2" %>
-    <%= form.text_field :body, class: "form-control" %>
-    <%
-=begin%>
- <%= form.label :content, "Treść" %>
-    <%= form.rich_textarea :content %> 
-<%
-=end%>
+    <%# <%= form.label :body, "Treść", class: "form-label d-block mt-2" %>
+    <%# <%= form.text_field :body, class: "form-control" %>
+
+    <%= form.label :content, "Treść" %>
+    <%= form.rich_textarea :content %>
   </div>
 
   <div>
-    <%= form.label :main_image, "Główne zdjęcie", class: "form-label d-block mt-2" %>
-    <%= form.file_field :main_image, class: "form-control" %>
+    <%= render "image_preview", form: form, post: post, class: "image" %>
   </div>
 
   <div>

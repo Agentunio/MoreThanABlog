@@ -8,6 +8,11 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
   get "panel-admina", to: "admin#index"
   get "panel-admina/lista-wpisow", to: "admin#lista"
+  get "panel-admina/role/zmiana-roli", to: "role#index"
+  post "panel-admina/role/zmiana-roli", to: "role#create"
+  get "panel-admina/role/edycja-roli", to: "role#new"
+  get "panel-admina/role/edycja-roli/:id", to: "role#edit"
+  get "panel-admina/role/edycja-roli", to: "role#delete"
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker

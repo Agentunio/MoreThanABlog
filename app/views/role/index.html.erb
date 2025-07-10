@@ -1,0 +1,11 @@
+<div class="bd-example m-0">
+<h1>Dodaj role</h1>
+<%= form_with do |form|%>
+  <div>
+    <%= form.label :name, "Nazwa roli", class: "form-label d-block" %>
+    <%= form.text_field :name, class: "form-control" %>
+  </div>
+  
+  <%= form.submit "Dodaj role", class: "btn mt-2"%>
+<% end %>
+</div>
