@@ -30,7 +30,7 @@ class RolesController < ApplicationController
   def update
     respond_to do |format|
       if @role.update(role_params)
-        format.html { redirect_to @role, notice: "Rola zaktualizowana" }
+        format.html { redirect_to panel_admina_path, notice: "Rola zaktualizowana" }
         format.json { render :show, status: :ok, location: @role }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -57,6 +57,6 @@ class RolesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def role_params
-      params.expect(role: [ :name ])
+      params.expect(role: [ :name, :panelpriv, :postspriv, :rolespriv, :userspriv ])
     end
 end

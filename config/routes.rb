@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get "panel-admina", to: "admin#index"
   get "panel-admina/lista", to: "admin#lista"
   get "panel-admina/uzytkownicy", to: "admin#users", as: :panel_admina_users
-  post "panel-admina/uzytkownicy", to: "admin#create", as: :panel_admina_users_save
+  patch "panel-admina/uzytkownicy", to: "admin#update", as: :panel_admina_users_save
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker

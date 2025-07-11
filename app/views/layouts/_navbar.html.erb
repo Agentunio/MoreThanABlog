@@ -10,9 +10,11 @@
           <%= link_to "Strona główna", root_path, class: "nav-link active" %>
         </li>
         <% if user_signed_in? %>
-          <li class="nav-item me-3">
-            <%= link_to "Panel admina", panel_admina_path, class: "nav-link active" %>
-          </li>
+          <% if current_user.role.panelpriv %>
+            <li class="nav-item me-3">
+              <%= link_to "Panel admina", panel_admina_path, class: "nav-link active" %>
+            </li>
+          <% end %>
           <li class="nav-item me-3">
             <%= button_to "Wyloguj się", destroy_user_session_path, method: :delete, class: "nav-link active", style: "color: #FA003F" %>
           </li>
