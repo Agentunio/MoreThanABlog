@@ -1,0 +1,28 @@
+<div class="bd-example m-0">
+<%= form_with(model: role) do |form| %>
+  <% if role.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(role.errors.count, "error") %> prohibited this role from being saved:</h2>
+
+      <ul>
+        <% role.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, "Nazwa roli", class: "form-label d-block" %>
+    <%= form.text_field :name, class: "form-control" %>
+  </div>
+
+  <div>
+    <% if action == false or nil %>
+      <%= form.submit "Zapisz zmiany", class: "btn mt-2" %>
+    <% else %>
+      <%= form.submit "Dodaj użytkownika", class: "btn mt-2" %>
+    <% end %>
+  </div>
+<% end %>
+</div>

@@ -2,11 +2,11 @@
 
 <h1>Edytuj wpis</h1>
 
-<%= render "form", post: @post %>
+<%= render "form", post: @post, action: false %>
 
 <br>
 
 <div>
   <%= link_to "Pokaż ten post", @post %> |
-  <%= link_to "Wróć", panel_admina_lista_wpisow_path %>
+  <%= link_to "Wróć", panel_admina_path %>
 </div>

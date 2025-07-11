@@ -1,0 +1,29 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Tytuł</th>
+      <th scope="col">Aktualna rola</th>
+      <th scope="col">Przydziel inną role</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @users.each do |user| %>
+    <tr>
+      <td><%= user.email %></td>
+      <td><%= user.role.name %></td>
+      <td>
+        <select class="form-select" aria-label="Default select example">
+          <option selected disabled>Otwórz menu by przydzielić role</option>
+            <%= @roles.each do |role| %>
+              <option value="<%= role.name%>"><%= role.name %></option>
+            <% end %>
+        </select>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+<%= button_to "Zapisz role", panel_admina_users_save_path, class: "btn"%>
+<div>
+  <%= link_to "Wróc do panelu admina", panel_admina_path %>
+</div>

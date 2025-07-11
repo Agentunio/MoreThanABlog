@@ -1,8 +1,8 @@
 <h1>Panel administracyjny</h1>
 <div>
-  https://stackoverflow.com/questions/79696986/stimulus-not-working-and-getting-mime-type-error
 <%= link_to "Dodaj nowy wpis", new_post_path, class: "btn" %>
-<%= link_to "Edytuj lub usuń wpis", panel_admina_lista_wpisow_path, class: "btn" %>
-<%= link_to "Dodaj role", panel_admina_role_zmiana_roli_path, class: "btn" %>
-<%= link_to "Edytuj lub usuń role", panel_admina_role_edycja_roli_path, class: "btn" %>
+<%= link_to "Edytuj lub usuń wpis", panel_admina_lista_path(type: "posts"), class: "btn" %>
+<%= link_to "Dodaj role", new_role_path, class: "btn" %> 
+<%= link_to "Edytuj lub usuń role", panel_admina_lista_path(type: "roles"),  class: "btn" %> 
+<%= link_to "Zarządzaj użytkownikami", panel_admina_users_path,  class: "btn" %> 
 </div>

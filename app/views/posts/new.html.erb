@@ -2,6 +2,9 @@
 
 <h1>Nowy wpis</h1>
 
-<%= render "form", post: @post %>
+<%= render "form", post: @post, action: true %>
 
 
+<div>
+  <%= link_to "Wróc do panelu admina", panel_admina_path %>
+</div>

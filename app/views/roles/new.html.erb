@@ -1,0 +1,11 @@
+<% content_for :title, "Nowa rola" %>
+
+<h1>Nowa rola</h1>
+
+<%= render "form", role: @role, action: true %>
+
+<br>
+
+<div>
+  <%= link_to "Wróc do panelu admina", panel_admina_path %>
+</div>

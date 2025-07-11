@@ -1,0 +1,11 @@
+<% content_for :title, "Edycja roli" %>
+
+<h1>Edycja roli</h1>
+
+<%= render "form", role: @role, action: false %>
+
+<br>
+
+<div>
+  <%= link_to "Wróc do panelu admina", panel_admina_path %>
+</div>

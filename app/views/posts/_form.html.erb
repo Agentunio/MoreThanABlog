@@ -30,7 +30,11 @@
   </div>
 
   <div>
-    <%= form.submit "Dodaj nowy wpis", class: "btn mt-2" %>
+    <% if action == false or nil %>
+      <%= form.submit "Edytuj wpis", class: "btn mt-2" %>
+    <% else %>
+      <%= form.submit "Dodaj nowy wpis", class: "btn mt-2" %>
+    <% end %>
   </div>
 <% end %>
 </div>
