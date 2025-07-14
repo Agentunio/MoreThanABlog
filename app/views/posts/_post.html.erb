@@ -1,9 +1,9 @@
 <div id="<%= dom_id post %>">
   <div class="card" style="width: 18rem;">
-    <%= image_tag(post.main_image, class: "card-img-top", alt: post.title) %>
+    <%= image_tag(post.main_image, class: "card-img-top", alt: post.title) if post.main_image.present? %>
     <div class="card-body">
       <h2 class="card-title"><%= post.title %></h2>
-      <p class="card-text"><%= post.body %></p>
+      <p class="card-text"><%= post.content.to_plain_text %></p>
       <%= link_to "Czytaj więcej ->", post, class: "btn" %>
     </div>
   </div>

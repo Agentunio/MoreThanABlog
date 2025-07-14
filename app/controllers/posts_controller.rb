@@ -1,9 +1,11 @@
 class PostsController < ApplicationController
   before_action :set_post, only: %i[ show edit update destroy ]
   before_action :authenticate_user!, only: %i[ new edit create update destroy ]
+  before_action :require_posts_permission, only: %i[ new edit lista create update destroy ]
   # GET /posts or /posts.json
   def index
-    @posts = Post.all
+
+    @posts = Post.all.order("created_at ASC")
   end
 
   # GET /posts/1 or /posts/1.json
@@ -19,6 +21,9 @@ class PostsController < ApplicationController
   def edit
   end
 
+  def lista
+      @posts = Post.all
+  end
   # POST /posts or /posts.json
   def create
     @post = Post.new(post_params)
@@ -52,7 +57,7 @@ class PostsController < ApplicationController
     @post.destroy!
 
     respond_to do |format|
-      format.html { redirect_to posts_path, status: :see_other, notice: "Wpis usunięty pomyślnie." }
+      format.html { redirect_to panel_admina_lista_wpisy_path, status: :see_other, notice: "Wpis usunięty pomyślnie." }
       format.json { head :no_content }
     end
   end
@@ -65,6 +70,10 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.expect(post: [ :title, :body, :main_image ])
+      params.expect(post: [ :title, :content, :main_image ])
+    end
+
+    def require_posts_permission
+      require_permission(:postspriv)
     end
 end

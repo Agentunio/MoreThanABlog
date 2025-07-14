@@ -1,12 +1,33 @@
+<% content_for :tiny do %>
+  <script src="https://cdn.tiny.cloud/1/omv36n529opjexgf4e04i5dxosf0ldbydjjf8w3td6to1hhc/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+  <script>
+    tinymce.init({
+      selector: '#post_content',
+      language: 'pl',
+      plugins: 'advlist autolink lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table code help wordcount',
+      toolbar: 'undo redo | blocks | bold italic underline forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media | preview code fullscreen',
+      images_file_types: 'jpg,svg,webp,png,jpeg',
+      file_picker_types: 'file image media',
+      automatic_uploads: true,
+      images_upload_url: '/upload-image-endpoint',
+      media_live_embeds: true,
+      relative_urls: false,
+      remove_script_host: false,
+      convert_urls: true
+    });
+
+    </script>
+<% end %>
+
 <div class="bd-example m-0">
 <%= form_with(model: post) do |form| %>
   <% if post.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+    <div style="color:rgb(226, 19, 54);">
+      <h2>Liczba błędów do poprawy przed publikacją wynosi: <%= pluralize(post.errors.count, "") %></h2>
 
       <ul>
         <% post.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+          <li><%= error.message %></li>
         <% end %>
       </ul>
     </div>
@@ -18,15 +39,12 @@
   </div>
 
   <div>
-    <%# <%= form.label :body, "Treść", class: "form-label d-block mt-2" %>
-    <%# <%= form.text_field :body, class: "form-control" %>
-
-    <%= form.label :content, "Treść" %>
-    <%= form.rich_textarea :content %>
+    <%= form.label :content, "Treść", class: "form-label d-block mt-2" %>
+    <%= form.textarea :content, class: "form-control" %>
   </div>
 
   <div>
-    <%= render "image_preview", form: form, post: post, class: "image" %>
+      <%= render "image_preview", form: form, post: post, class: "image" %>
   </div>
 
   <div>

@@ -7,7 +7,6 @@
     </tr>
   </thead>
   <tbody>
-  <% if @posts.present? %>
   <% @posts.each do |post| %>
     <tr>
       <td><%= post.title %></td>
@@ -15,15 +14,6 @@
       <td><%= button_to "Usuń", post, method: :delete, class: "btn" %></td> 
     </tr>
   <% end %>
-  <% else %>
-  <% @roles.each do |role| %>
-    <tr>
-      <td><%= role.name %></td>
-      <td><%= link_to "Edytuj", edit_role_path(role.id), class: "btn" %></td>
-      <td><%= button_to "Usuń", role, method: :delete, class: "btn" %></td> 
-    </tr>
-  <% end %>
-  <% end%>
   </tbody>
 </table>
 <div>

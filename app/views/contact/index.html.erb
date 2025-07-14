@@ -1,0 +1,29 @@
+<div class="container py-5">
+    <h1 class="mb-4 text-center">Skontaktuj się z nami</h1>
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <%= form_with do |form|%>
+          <div class="mb-3">
+            <%= form.label :name, "Imię i nazwisko", class: "form-label" %>
+            <%= form.text_field :name, class: "form-control", placeholder: "Wpisz swoje imię" %>
+          </div>
+
+          <div class="mb-3">
+            <%= form.label :email, "Adres e-mail", class: "form-label" %>
+            <%= form.email_field :email, class: "form-control", placeholder: "twoj@email.com" %>
+          </div>
+
+          <div class="mb-3">
+            <%= form.label :subject, "Temat wiadomości", class: "form-label"%>
+            <%= form.text_field :subject, class: "form-control", placeholder: "Temat wiadomości"%>
+          </div>
+
+          <div class="mb-3">
+            <%= form.label :message, "Wiadomość",  class: "form-label"%>
+            <%= form.textarea :message, class: "form-control", placeholder: "Napisz swoją wiadomość tutaj..."%>
+          </div>
+          <%= form.submit "Wyślij", class: "btn w-100" %>
+        <% end %>
+      </div>
+    </div>
+  </div>

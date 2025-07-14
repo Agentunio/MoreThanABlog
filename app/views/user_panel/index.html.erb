@@ -13,7 +13,7 @@
     <td><%= user.role.name %></td>
     <td>
         <%= form_with model: user, url: panel_admina_users_save_path(user.id), method: :patch do |form| %>
-        <%= form.select :role_name, @roles.map { |role| [role.name, role.name] }, {},class: "form-select" %>
+        <%= form.select :role_name, @roles.reject { |role| role.name == "Admin" }.map { |role| [role.name, role.name] }, {},class: "form-select" %>
         <%= form.submit "Zapisz rolę", class: "btn mt-2" %>
         <% end %>
     </td>

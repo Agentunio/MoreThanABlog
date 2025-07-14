@@ -4,6 +4,7 @@
   <%= form.file_field :main_image, direct_upload: true, data: { previews_target: "input", action: "change->previews#preview"}, class: "form-control" %>
 
   <% if post.main_image.attached? %>
+    <p class="mt-2">Aktualne główne zdjęcie:</p>
     <%= image_tag post.main_image, data: { previews_target: "preview" }, class: "image" %>
   <% else %>
     <%= image_tag "", data: { previews_target: "preview" }, class: "image" %>
