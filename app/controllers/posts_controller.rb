@@ -4,8 +4,14 @@ class PostsController < ApplicationController
   before_action :require_posts_permission, only: %i[ new edit lista create update destroy ]
   # GET /posts or /posts.json
   def index
-
-    @posts = Post.all.order("created_at ASC")
+    page = params[:page].presence&.to_i || 1
+    posts_on_page = 12
+    offset = (page - 1) * posts_on_page
+    @how_many_page = (Post.all.size.to_i / 12.to_f).ceil
+    if page > @how_many_page || page < 1
+      redirect_to root_path, alert: "Strona niedostępna."
+    end
+    @posts = Post.limit(posts_on_page).offset(offset).order("updated_at DESC")
   end
 
   # GET /posts/1 or /posts/1.json
@@ -26,16 +32,12 @@ class PostsController < ApplicationController
   end
   # POST /posts or /posts.json
   def create
-    @post = Post.new(post_params)
+    @post = current_user.posts.build(post_params)
 
-    respond_to do |format|
-      if @post.save
-        format.html { redirect_to @post, notice: "Wpis stworzony pomyślnie." }
-        format.json { render :show, status: :created, location: @post }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
-      end
+    if @post.save
+        redirect_to @post, notice: "Wpis stworzony pomyślnie."
+    else
+        render :new, status: :unprocessable_entity
     end
   end
 

@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
   resources :roles , path: "panel-admina/role"
-  devise_for :users
-  resources :posts, path: "panel-admina/wpisy"
+  devise_for :users, controllers: {
+    registrations: 'users/registrations'
+  }
+  resources :posts, path: "panel-admina/wpisy", expect: %i[ index show ]
+  resources :posts, path: "wpisy", only: %i[ index show ], as: "wpisy"
 
   get "panel-admina", to: "admin#index"
   get "panel-admina/lista-wpisy", to: "posts#lista", as: "panel_admina_lista_wpisy"

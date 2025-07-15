@@ -35,7 +35,7 @@
 
   <div>
     <%= form.label :title, "Tytuł", class: "form-label d-block" %>
-    <%= form.text_field :title, class: "form-control" %>
+    <%= form.text_field :title, class: "form-control", required: true %>
   </div>
 
   <div>
@@ -43,13 +43,21 @@
     <%= form.textarea :content, class: "form-control" %>
   </div>
 
+  <% if action == false or nil %>
+    <div>
+      <%= form.label :updated_at, "Data wpisu", class: "form-label d-block" %>
+      <%= form.date_field :updated_at, class: "form-control" %>
+    </div>
+
+  <% end %>
+
   <div>
       <%= render "image_preview", form: form, post: post, class: "image" %>
   </div>
 
   <div>
     <% if action == false or nil %>
-      <%= form.submit "Edytuj wpis", class: "btn mt-2" %>
+      <%= form.submit "Zapisz zmiany", class: "btn mt-2" %>
     <% else %>
       <%= form.submit "Dodaj nowy wpis", class: "btn mt-2" %>
     <% end %>

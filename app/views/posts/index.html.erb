@@ -8,3 +8,13 @@
   <% end %>
 </div>
 
+<% if @how_many_page > 1 %>
+<% current_page = params[:page].present? ? params[:page].to_i : 1 %>
+  <div class="d-flex justify-content-center mt-4 gap-2">
+  <% @how_many_page.times do |i| %>
+      <% page_number = i + 1 %>
+      <% active_class = (current_page == page_number) ? "active-pagination" : "" %>
+      <%= link_to page_number, root_path(page: page_number), class: "pagination-links text-center align-content-center #{active_class}" %>
+  <% end %>
+  </div>
+<% end %>

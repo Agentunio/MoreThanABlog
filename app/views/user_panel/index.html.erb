@@ -1,7 +1,8 @@
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">Tytuł</th>
+      <th scope="col">Nick użytkownika</th>
+      <th scope="col">Mail użytkownika</th>
       <th scope="col">Aktualna rola</th>
       <th scope="col">Przydziel inną role</th>
     </tr>
@@ -9,11 +10,16 @@
   <tbody>
  <% @users.each do |user| %>
   <tr>
+    <td><%= user.username %></td>
     <td><%= user.email %></td>
     <td><%= user.role.name %></td>
     <td>
         <%= form_with model: user, url: panel_admina_users_save_path(user.id), method: :patch do |form| %>
-        <%= form.select :role_name, @roles.reject { |role| role.name == "Admin" }.map { |role| [role.name, role.name] }, {},class: "form-select" %>
+        <% if current_user.role.name != "Admin" %>
+          <%= form.select :role_name, @roles.reject { |role| role.name == "Admin" }.map { |role| [role.name, role.name] }, {},class: "form-select" %>
+        <% else %>
+          <%= form.select :role_name, @roles.map { |role| [role.name, role.name] }, {},class: "form-select" %>
+        <% end %>
         <%= form.submit "Zapisz rolę", class: "btn mt-2" %>
         <% end %>
     </td>

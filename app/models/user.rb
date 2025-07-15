@@ -5,10 +5,10 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
       belongs_to :role, optional: true
       before_validation :set_default_role, on: :create
+      has_many :posts
+      private
 
-       private
-
-      def set_default_role
-        self.role ||= Role.find_by(name: "Użytkownik")
-      end
+        def set_default_role
+          self.role ||= Role.find_by(name: "Użytkownik")
+        end
 end

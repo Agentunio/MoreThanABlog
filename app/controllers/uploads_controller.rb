@@ -14,7 +14,6 @@ class UploadsController < ApplicationController
       return render json: { error: 'Dozwolone są tylko zdjęcia' }, status: :unprocessable_entity
     end
 
-
     if file.present?
       blob = ActiveStorage::Blob.create_and_upload!(
         io: params[:file],
