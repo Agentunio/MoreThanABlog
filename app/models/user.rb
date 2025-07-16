@@ -6,6 +6,9 @@ class User < ApplicationRecord
       belongs_to :role, optional: true
       before_validation :set_default_role, on: :create
       has_many :posts
+      validates :username, presence: true
+      validates :email, format: { with: /\A[^@\s]+@[^@\s]+\.[^@\s]+\z/ }
+
       private
 
         def set_default_role

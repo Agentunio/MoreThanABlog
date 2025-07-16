@@ -4,7 +4,7 @@
     <div class="card-body">
       <h2 class="card-title m-0"><%= post.title %></h2>
       <div style="font-size: 16px; color: grey; font-style: italic;"><p class="m-0 p-0">Autor: <%= post.user.username %></p></div>
-      <div class="mb-2" style="font-size: 16px; color: grey; font-style: italic;"><p>Data: <%= post.updated_at.strftime("%d.%m.%Y") %></p></div>
+      <div class="mb-2" style="font-size: 16px; color: grey; font-style: italic;"><p>Data: <%= post.custom_date&.strftime("%d.%m.%Y") || post.updated_at.strftime("%d.%m.%Y") %></p></div>
       <p class="card-text" style="font-size: 18px;"><%= post.content.to_plain_text.truncate(100, separator: '.') %></p>
       <%= link_to "Czytaj więcej ->", wpisy_path(post), class: "btn" %>
     </div>

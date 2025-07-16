@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   before_action :set_post, only: %i[ show edit update destroy ]
+  before_action :set_users, only: %i[ edit update ]
   before_action :authenticate_user!, only: %i[ new edit create update destroy ]
   before_action :require_posts_permission, only: %i[ new edit lista create update destroy ]
   # GET /posts or /posts.json
@@ -11,7 +12,7 @@ class PostsController < ApplicationController
     if page > @how_many_page || page < 1
       redirect_to root_path, alert: "Strona niedostępna."
     end
-    @posts = Post.limit(posts_on_page).offset(offset).order("updated_at DESC")
+    @posts = Post.limit(posts_on_page).offset(offset).order(Arel.sql("COALESCE(custom_date, updated_at) DESC"))
   end
 
   # GET /posts/1 or /posts/1.json
@@ -25,10 +26,11 @@ class PostsController < ApplicationController
 
   # GET /posts/1/edit
   def edit
+    @author_of_post = @post.user.username
   end
 
   def lista
-      @posts = Post.all
+      @posts = Post.all.order(Arel.sql("COALESCE(custom_date, updated_at) DESC"))
   end
   # POST /posts or /posts.json
   def create
@@ -65,6 +67,10 @@ class PostsController < ApplicationController
   end
 
   private
+
+    def set_users
+      @users = User.select(:id, :username).where("role_id != 7")
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_post
       @post = Post.find(params.expect(:id))
@@ -72,7 +78,7 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.expect(post: [ :title, :content, :main_image ])
+      params.expect(post: [ :title, :content, :main_image, :custom_date, :user_id ])
     end
 
     def require_posts_permission

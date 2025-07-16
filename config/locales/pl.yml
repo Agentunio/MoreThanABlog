@@ -1,0 +1,42 @@
+pl:
+  activerecord:
+    models:
+      user: "użytkownik"
+    attributes:
+      user:
+        password_confirmation: "Potwierdzenie hasła"
+        password: "Hasło"
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              blank: "Musisz podać email"
+              invalid: "Nieprawidłowy email"
+            password:
+              too_short: "Twoje hasło musi mieć minimum 6 znaków"
+              blank: "Musisz podać hasło"
+            password_confirmation:
+              confirmation: "Hasła nie są takie same"
+            username:
+              blank: "Musisz podać nick"
+        role:
+          attributes:
+            name:
+              blank: "Musisz podać nazwę roli"
+        post:
+          attributes:
+            main_image:
+              blank: "Główne zdjęcie musi zostać dodane"
+              invalid_format: "Nieprawidłowy format pliku. Dozwolone: JPG, PNG, WEBP."
+            title:
+              blank: "Tytuł musi zostać dodany"
+              taken: "Tytuł musi być unikatowy"
+            custom_date:
+              invalid_date: "Data publikacji nie może być przyszła"
+  errors:
+    messages:
+      not_saved:
+        one: "Liczba błędów do poprawy wynosi: %{count}"
+        other: "Liczba błędów do poprawy wynosi: %{count}"

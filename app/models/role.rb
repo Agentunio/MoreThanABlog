@@ -1,4 +1,4 @@
 class Role < ApplicationRecord
   has_many :users
-  validates :name, presence: { message: "Musisz podać nazwę roli" }
+  validates :name, presence: true
 end

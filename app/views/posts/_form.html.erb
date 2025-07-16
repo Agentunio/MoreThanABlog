@@ -33,29 +33,46 @@
     </div>
   <% end %>
 
-  <div>
+  <div class="mt-3">
     <%= form.label :title, "Tytuł", class: "form-label d-block" %>
     <%= form.text_field :title, class: "form-control", required: true %>
   </div>
 
-  <div>
+  <div class="mt-3">
     <%= form.label :content, "Treść", class: "form-label d-block mt-2" %>
     <%= form.textarea :content, class: "form-control" %>
   </div>
 
   <% if action == false or nil %>
-    <div>
-      <%= form.label :updated_at, "Data wpisu", class: "form-label d-block" %>
-      <%= form.date_field :updated_at, class: "form-control" %>
+    <div class="mt-3">
+      <p>Aktualna data wpisu to: <%= post.custom_date&.strftime("%d.%m.%Y") || post.updated_at.strftime("%d.%m.%Y") %></p>
+      <%= form.label :custom_date, "Zmień date wpisu na:", class: "form-label d-block" %>
+      <%= form.date_field :custom_date, class: "form-control" %>
+    </div>
+
+
+    <div class="mt-3">
+      <p>Aktualny autor wpisu to: <%= @author_of_post %></p>
+      <%= form.label :user_id, "Zmień autora wpisu na:", class: "form-label d-block" %>
+      <%= form.select :user_id, @users.map { |user| [user.username, user.id] }, {}, class: "form-select" %>
     </div>
 
   <% end %>
 
-  <div>
-      <%= render "image_preview", form: form, post: post, class: "image" %>
+  <div class="mt-3">
+      <%= form.label :main_image, "Główne zdjęcie", class: "form-label d-block mt-2" %>
+      <% if post.main_image.attached? %>
+        <%= form.file_field :main_image, direct_upload: true, data: { previews_target: "input", action: "change->previews#preview"}, accept: "image/*", class: "form-control" %>
+      <% else %>
+        <%= form.file_field :main_image, direct_upload: true, data: { previews_target: "input", action: "change->previews#preview"}, required: true, accept: "image/*", class: "form-control" %>
+      <% end %>
   </div>
 
-  <div>
+  <%# <div class="mt-3"> %>
+      <%# <%= render "image_preview", form: form, post: post, class: "image" %> 
+  <%# </div> %>
+
+  <div class="mt-3">
     <% if action == false or nil %>
       <%= form.submit "Zapisz zmiany", class: "btn mt-2" %>
     <% else %>

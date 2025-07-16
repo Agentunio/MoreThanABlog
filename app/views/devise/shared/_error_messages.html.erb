@@ -1,5 +1,5 @@
 <% if resource.errors.any? %>
-  <div id="error_explanation" data-turbo-cache="false">
+  <div style="color:rgb(226, 19, 54);" id="error_explanation" data-turbo-cache="false">
     <h2>
       <%= I18n.t("errors.messages.not_saved",
                  count: resource.errors.count,
@@ -7,8 +7,8 @@
        %>
     </h2>
     <ul>
-      <% resource.errors.messages.each do |message| %>
-        <li><%= message %></li>
+      <% resource.errors.each do |error| %>
+        <li><%= error.message %></li>
       <% end %>
     </ul>
   </div>
