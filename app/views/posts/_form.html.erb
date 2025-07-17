@@ -73,6 +73,16 @@
   <%# </div> %>
 
   <div class="mt-3">
+      <% if post.gallery.attached? %>
+        <%= form.label :gallery, "Dodaj zdjęcie do galerii zdjęć", class: "form-label d-block mt-2" %>
+        <%= form.file_field :gallery, direct_upload: true, accept: "image/*", multiple: true, class: "form-control" %>
+      <% else %>
+        <%= form.label :gallery, "Galeria zdjęć", class: "form-label d-block mt-2" %>
+        <%= form.file_field :gallery, direct_upload: true, required: true, accept: "image/*", multiple: true, class: "form-control" %>
+      <% end %>
+  </div>
+
+  <div class="mt-3">
     <% if action == false or nil %>
       <%= form.submit "Zapisz zmiany", class: "btn mt-2" %>
     <% else %>
@@ -80,4 +90,20 @@
     <% end %>
   </div>
 <% end %>
+
+<div class="mt-3">
+      <% if post.gallery.attached? %>
+        <div class="mb-3">
+          <h2>Aktualna galeria zdjęć</h2>
+            <div class="d-flex gap-2 flex-wrap">
+              <% post.gallery.each do |img| %>
+                <div class="d-flex flex-column">
+                  <div class="gallery-img" style="background-image: url('<%= url_for(img) %>');"></div>
+                  <%= button_to "Usuń to zdjęcie", remove_image_post_path(post, img.id), method: :delete, class: "btn mt-2" %>
+                </div>
+              <% end %>
+            </div>
+        </div>
+      <% end %>
+  </div>
 </div>

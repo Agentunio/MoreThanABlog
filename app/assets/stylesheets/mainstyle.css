@@ -55,3 +55,11 @@ footer{
 .active-pagination{
   background-color: #88c5c2b2;
 }
+.gallery-img{
+  background-size: cover;
+  border-radius: 10px;
+  max-width: 350px;
+  min-width: 350px;
+  max-height: 350px;
+  min-height: 350px;
+}

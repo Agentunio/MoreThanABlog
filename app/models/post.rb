@@ -1,5 +1,6 @@
 class Post < ApplicationRecord
   has_one_attached :main_image
+  has_many_attached :gallery
   has_rich_text :content
   belongs_to :user
 
@@ -10,6 +11,7 @@ class Post < ApplicationRecord
   validates :title, uniqueness: true, presence: true
   validate :custom_date_cannot_be_in_future
   validate :main_image_type
+  validate :gallery_image_type
 
   private
 
@@ -18,6 +20,16 @@ class Post < ApplicationRecord
 
     unless main_image.blob&.content_type&.in?(%w[image/jpeg image/png image/webp image/jpg])
       errors.add(:main_image, :invalid_format)
+    end
+  end
+
+  def gallery_image_type
+    return unless gallery.attached?
+
+    gallery.each do |img|
+      unless img.blob&.content_type&.in?(%w[image/jpeg image/png image/webp image/jpg])
+        errors.add(:gallery, :invalid_format)
+      end
     end
   end
 

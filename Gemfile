@@ -44,3 +44,4 @@ end
 #Custom
 gem "devise", "~> 4.9"
 gem 'friendly_id', '~> 5.5.0'
+gem 'rails-i18n'

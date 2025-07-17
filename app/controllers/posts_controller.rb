@@ -45,16 +45,30 @@ class PostsController < ApplicationController
 
   # PATCH/PUT /posts/1 or /posts/1.json
   def update
-    respond_to do |format|
-      if @post.update(post_params)
-        format.html { redirect_to @post, notice: "Wpis zaktualizowany pomyślnie." }
-        format.json { render :show, status: :ok, location: @post }
+      if @post.update(post_params.except(:gallery))
+        if post_params[:gallery]
+          post_params[:gallery].each do |new_image|
+            @post.gallery.attach(new_image)
+          end
+        end
+
+        redirect_to @post, notice: "Wpis zaktualizowany pomyślnie."
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
+        render :edit, status: :unprocessable_entity 
       end
+  end
+
+  def remove_image
+    @post = Post.find(params[:id])
+    image = @post.gallery_attachments.find(params[:image_id])
+
+    if image.purge
+      redirect_to edit_post_path(@post), notice: "Zdjęcie zostało usunięte."
+    else
+     render :edit, status: :unprocessable_entity , alert: "Nie znaleziono zdjęcia."
     end
   end
+
 
   # DELETE /posts/1 or /posts/1.json
   def destroy
@@ -78,7 +92,7 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.expect(post: [ :title, :content, :main_image, :custom_date, :user_id ])
+      params.expect(post: [ :title, :content, :main_image, :custom_date, :user_id, gallery: [] ])
     end
 
     def require_posts_permission

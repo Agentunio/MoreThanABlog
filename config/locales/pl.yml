@@ -35,8 +35,43 @@ pl:
               taken: "Tytuł musi być unikatowy"
             custom_date:
               invalid_date: "Data publikacji nie może być przyszła"
+            gallery:
+              invalid_format: "Nieprawidłowy format pliku. Dozwolone: JPG, PNG, WEBP."
   errors:
+    format: "%{attribute} %{message}"
     messages:
       not_saved:
         one: "Liczba błędów do poprawy wynosi: %{count}"
         other: "Liczba błędów do poprawy wynosi: %{count}"
+      accepted: "musi zostać zaakceptowane"
+      blank: "nie może być puste"
+      present: "musi być puste"
+      confirmation: "nie zgadza się z %{attribute}"
+      empty: "nie może być puste"
+      equal_to: "musi być równe %{count}"
+      even: "musi być parzyste"
+      exclusion: "jest zarezerwowane"
+      greater_than: "musi być większe niż %{count}"
+      greater_than_or_equal_to: "musi być większe lub równe %{count}"
+      inclusion: "nie znajduje się na liście dozwolonych wartości"
+      invalid: "jest nieprawidłowe"
+      less_than: "musi być mniejsze niż %{count}"
+      less_than_or_equal_to: "musi być mniejsze lub równe %{count}"
+      model_invalid: "Niepowodzenie walidacji: %{errors}"
+      not_a_number: "nie jest liczbą"
+      not_an_integer: "musi być liczbą całkowitą"
+      odd: "musi być nieparzyste"
+      required: "musi istnieć"
+      taken: "zostało już zajęte"
+      too_long:
+        one: "jest za długie (maksymalnie 1 znak)"
+        few: "jest za długie (maksymalnie %{count} znaki)"
+        many: "jest za długie (maksymalnie %{count} znaków)"
+      too_short:
+        one: "jest za krótkie (minimum 1 znak)"
+        few: "jest za krótkie (minimum %{count} znaki)"
+        many: "jest za krótkie (minimum %{count} znaków)"
+      wrong_length:
+        one: "ma nieprawidłową długość (powinno mieć 1 znak)"
+        few: "ma nieprawidłową długość (powinno mieć %{count} znaki)"
+        many: "ma nieprawidłową długość (powinno mieć %{count} znaków)"

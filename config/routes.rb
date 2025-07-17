@@ -5,6 +5,13 @@ Rails.application.routes.draw do
   }
   resources :posts, path: "panel-admina/wpisy", expect: %i[ index show ]
   resources :posts, path: "wpisy", only: %i[ index show ], as: "wpisy"
+  resources :posts do
+    member do
+      delete 'remove_image/:image_id', to: 'posts#remove_image', as: 'remove_image'
+    end
+  end
+
+
 
   get "panel-admina", to: "admin#index"
   get "panel-admina/lista-wpisy", to: "posts#lista", as: "panel_admina_lista_wpisy"
@@ -17,6 +24,7 @@ Rails.application.routes.draw do
 
 
   get "kontakt", to: "contact#index"
+  post "kontakt", to: "contact#create"
 
   root "posts#index"
 
