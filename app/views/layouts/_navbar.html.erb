@@ -16,6 +16,9 @@
             </li>
           <% end %>
           <li class="nav-item me-3">
+            <%= link_to "Edytuj swoje konto",  edit_user_registration_path, class: "nav-link active" %>
+          </li>
+          <li class="nav-item me-3">
             <%= button_to "Wyloguj się", destroy_user_session_path, method: :delete, class: "nav-link active", style: "color: #FA003F" %>
           </li>
         <% else %>

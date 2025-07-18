@@ -1,5 +1,4 @@
 class ContactMailer < ApplicationMailer
-  default from: "kontakt@wpisyozyciu.pl"
 
   def form_contact
     @contact = params[:contact]

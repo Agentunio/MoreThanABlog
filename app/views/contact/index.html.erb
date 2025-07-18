@@ -2,7 +2,20 @@
     <h1 class="mb-4 text-center">Skontaktuj się z nami</h1>
     <div class="row justify-content-center">
       <div class="col-md-8 col-lg-6">
-        <%= form_with do |form|%>
+        <%= form_with model: @contact, url: kontakt_path, local: true do |form|%>
+          <% if @contact.errors.any? %>
+            <div style="color:rgb(226, 19, 54);">
+              <h2>Liczba błędów do poprawy przed publikacją wynosi: <%= pluralize(@contact.errors.count, "") %></h2>
+
+              <ul>
+                <% @contact.errors.full_messages.each do |error| %>
+                  <li><%= error %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+
           <div class="mb-3">
             <%= form.label :name, "Imię i nazwisko", class: "form-label" %>
             <%= form.text_field :name, class: "form-control", placeholder: "Wpisz swoje imię" %>

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :pages
   resources :roles , path: "panel-admina/role"
   devise_for :users, controllers: {
     registrations: 'users/registrations'
@@ -12,6 +13,7 @@ Rails.application.routes.draw do
   end
 
 
+  get "panel-admina/nowa-podstrona", to: "new_page#new", as: "new_page_admin"
 
   get "panel-admina", to: "admin#index"
   get "panel-admina/lista-wpisy", to: "posts#lista", as: "panel_admina_lista_wpisy"
