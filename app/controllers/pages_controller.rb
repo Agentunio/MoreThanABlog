@@ -6,8 +6,8 @@ class PagesController < ApplicationController
     segments = params[:slug].to_s.split("/")
 
     @page = segments.reduce(nil) do |parent, slug|
-      scope = parent ? parent.children : Page.roots 
-      scope.friendly.find(slug)                  
+      scope = parent ? parent.children : Page.roots
+      scope.friendly.find(slug)
     end
 
   end
