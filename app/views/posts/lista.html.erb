@@ -10,12 +10,12 @@
   <% @posts.each do |post| %>
     <tr>
       <td><%= post.title %></td>
-      <td><%= link_to "Edytuj", edit_post_path(post.id), class: "btn" %></td>
-      <td><%= button_to "Usuń", post, method: :delete, class: "btn" %></td> 
+      <td><%= link_to "Edytuj", edit_admin_post_path(post.id), class: "btn" %></td>
+      <td><%= button_to "Usuń", admin_post_path(post), method: :delete, class: "btn" %></td> 
     </tr>
   <% end %>
   </tbody>
 </table>
 <div>
-  <%= link_to "Wróc do panelu admina", panel_admina_path %>
+  <%= link_to "Wróc do panelu admina", admin_path %>
 </div>

@@ -1,29 +1,32 @@
 Rails.application.routes.draw do
-  resources :pages
-  resources :roles , path: "panel-admina/role"
+ 
+  scope path: "panel-admina", as: "admin" do
+
+    get "/", to: "admin#index" 
+
+    resources :pages, path: "strony", except: %i[ show ]
+
+    resources :posts, path: "wpisy", except: %i[index show] do
+      delete "remove_image/:image_id", to: "posts#remove_image",
+                                       as: :remove_image, on: :member
+      collection do
+        get  "lista", to: "posts#lista",  as: :lista  
+      end
+    end
+
+    resources :roles, path: "role" do
+      collection { get "lista", to: "roles#lista", as: :lista }
+    end
+
+    get   "uzytkownicy",        to: "user_panel#index",        as: :users
+    patch "uzytkownicy",        to: "user_panel#update_user",  as: :users_save
+  end
+
   devise_for :users, controllers: {
     registrations: 'users/registrations'
   }
-  resources :posts, path: "panel-admina/wpisy", expect: %i[ index show ]
-  resources :posts, path: "wpisy", only: %i[ index show ], as: "wpisy"
-  resources :posts do
-    member do
-      delete 'remove_image/:image_id', to: 'posts#remove_image', as: 'remove_image'
-    end
-  end
-
-
-  get "panel-admina/nowa-podstrona", to: "new_page#new", as: "new_page_admin"
-
-  get "panel-admina", to: "admin#index"
-  get "panel-admina/lista-wpisy", to: "posts#lista", as: "panel_admina_lista_wpisy"
-  get "panel-admina/lista-role", to: "roles#lista", as: "panel_admina_lista_role"
-
-  get "panel-admina/uzytkownicy", to: "user_panel#index", as: :panel_admina_users
-  patch "panel-admina/uzytkownicy", to: "user_panel#update_user", as: :panel_admina_users_save
-
   post '/upload-image-endpoint', to: 'uploads#image'
-
+  resources :posts, path: "wpisy", only: %i[ index show ], as: "wpisy"
 
   get "kontakt", to: "contact#index"
   post "kontakt", to: "contact#create"
@@ -31,4 +34,9 @@ Rails.application.routes.draw do
   root "posts#index"
 
   get "up" => "rails/health#show", as: :rails_health_check
+
+  get "/*slug", to: "pages#show", as: :site_page, format: false,
+    constraints: ->(req) {
+      req.path != "/" && !req.path.match?(/\.[a-z0-9]{2,5}$/i)
+    }
 end

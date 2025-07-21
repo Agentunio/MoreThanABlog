@@ -1,0 +1,55 @@
+<% content_for :tiny do %>
+  <script src="https://cdn.tiny.cloud/1/omv36n529opjexgf4e04i5dxosf0ldbydjjf8w3td6to1hhc/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+  <script>
+    tinymce.init({
+      selector: '#page_content',
+      language: 'pl',
+      plugins: 'advlist autolink lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table code help wordcount',
+      toolbar: 'undo redo | blocks | bold italic underline forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media | preview code fullscreen',
+      images_file_types: 'jpg,svg,webp,png,jpeg',
+      file_picker_types: 'file image media',
+      automatic_uploads: true,
+      images_upload_url: '/upload-image-endpoint',
+      media_live_embeds: true,
+      relative_urls: false,
+      remove_script_host: false,
+      convert_urls: true
+    });
+
+    </script>
+<% end %>
+
+<div class="bd-example m-0">
+<%= form_with model: [:admin, @page], local: true do |form| %>
+  <% if @page.errors.any? %>
+    <div style="color:rgb(226, 19, 54);">
+      <h2>Liczba błędów do poprawy przed publikacją wynosi: <%= pluralize(@page.errors.count, "") %></h2>
+
+      <ul>
+        <% @page.errors.each do |error| %>
+          <li><%= error.message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :title, "Tytuł strony", class: "form-label d-block" %>
+    <%= form.text_field :title, class: "form-control", required: true  %>
+  </div>
+
+  <div class="mt-3">
+    <%= form.label :content, "Zawartość strony", class: "form-label d-block" %>
+    <%= form.textarea :content, class: "form-control"  %>
+  </div>
+
+  <div class="mt-3">
+    <%= form.label :parent_id, "Wybierz stronę nadrzędną", class: "form-label d-block" %>
+    <%= form.collection_select :parent_id, Page.all, :id, :title, {prompt: "Brak rodzica"}, {class: "form-select"} %>
+  </div>
+
+  <div>
+    <%= form.submit "Dodaj nową stronę", class: "btn mt-3" %>
+  </div>
+<% end %>
+</div>

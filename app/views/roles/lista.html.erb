@@ -10,12 +10,12 @@
   <% @roles.each do |role| %>
     <tr>
       <td><%= role.name %></td>
-      <td><%= link_to "Edytuj", edit_role_path(role.id), class: "btn" %></td>
-      <td><%= button_to "Usuń", role, method: :delete, class: "btn" %></td> 
+      <td><%= link_to "Edytuj", edit_admin_role_path(role.id), class: "btn" %></td>
+      <td><%= button_to "Usuń", admin_role_path(role), method: :delete, class: "btn" %></td> 
     </tr>
   <% end %>
   </tbody>
 </table>
 <div>
-  <%= link_to "Wróc do panelu admina", panel_admina_path %>
+  <%= link_to "Wróc do panelu admina", admin_path %>
 </div>

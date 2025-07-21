@@ -14,12 +14,8 @@
     <td><%= user.email %></td>
     <td><%= user.role.name %></td>
     <td>
-        <%= form_with model: user, url: panel_admina_users_save_path(user.id), method: :patch do |form| %>
-        <% if current_user.role.name != "Admin" %>
-          <%= form.select :role_name, @roles.reject { |role| role.name == "Admin" }.map { |role| [role.name, role.name] }, {},class: "form-select" %>
-        <% else %>
-          <%= form.select :role_name, @roles.map { |role| [role.name, role.name] }, {},class: "form-select" %>
-        <% end %>
+        <%= form_with model: user, url: admin_users_save_path(user.id), method: :patch do |form| %>
+        <%= form.select :role_name, @roles.map { |role| [role.name, role.name] }, {prompt: "Przydziel role"}, class: "form-select" %>
         <%= form.submit "Zapisz rolę", class: "btn mt-2" %>
         <% end %>
     </td>
@@ -28,5 +24,5 @@
   </tbody>
 </table>
 <div>
-  <%= link_to "Wróc do panelu admina", panel_admina_path %>
+  <%= link_to "Wróc do panelu admina", admin_path %>
 </div>

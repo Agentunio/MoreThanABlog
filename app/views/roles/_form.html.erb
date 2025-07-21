@@ -1,5 +1,5 @@
 <div class="bd-example m-0">
-<%= form_with(model: role) do |form| %>
+<%= form_with model: [:admin, role], local: true do |form| %>
     <% if role.errors.any? %>
     <div style="color:rgb(226, 19, 54);">
       <h2>Liczba błędów do poprawy wynosi: <%= pluralize(role.errors.count, "") %></h2>

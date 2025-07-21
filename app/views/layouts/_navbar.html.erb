@@ -10,9 +10,9 @@
           <%= link_to "Strona główna", root_path, class: "nav-link active" %>
         </li>
         <% if user_signed_in? %>
-          <% if current_user.role.panelpriv %>
+          <% if current_user.role&.panelpriv %>
             <li class="nav-item me-3">
-              <%= link_to "Panel admina", panel_admina_path, class: "nav-link active" %>
+              <%= link_to "Panel admina", admin_path, class: "nav-link active" %>
             </li>
           <% end %>
           <li class="nav-item me-3">

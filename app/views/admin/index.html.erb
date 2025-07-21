@@ -1,14 +1,15 @@
 <h1>Panel administracyjny</h1>
 <div>
 <% if current_user.role.postspriv %>
-<%= link_to "Dodaj nowy wpis", new_post_path, class: "btn" %>
-<%= link_to "Edytuj lub usuń wpis", panel_admina_lista_wpisy_path, class: "btn" %>
+<%= link_to "Dodaj nowy wpis", new_admin_post_path, class: "btn" %>
+<%= link_to "Edytuj lub usuń wpis", lista_admin_posts_path, class: "btn" %>
 <% end %>
 <% if current_user.role.rolespriv %>
-<%= link_to "Dodaj role", new_role_path, class: "btn" %> 
-<%= link_to "Edytuj lub usuń role", panel_admina_lista_role_path,  class: "btn" %> 
+<%= link_to "Dodaj role", new_admin_role_path, class: "btn" %> 
+<%= link_to "Edytuj lub usuń role", lista_admin_roles_path,  class: "btn" %> 
 <% end %>
 <% if current_user.role.userspriv %>
-<%= link_to "Zarządzaj użytkownikami", panel_admina_users_path,  class: "btn" %> 
+<%= link_to "Zarządzaj użytkownikami", admin_users_path,  class: "btn" %> 
 <% end %>
+<%= link_to "Dodaj nowa stronę", new_admin_page_path,  class: "btn" %> 
 </div>

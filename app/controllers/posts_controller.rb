@@ -5,14 +5,20 @@ class PostsController < ApplicationController
   before_action :require_posts_permission, only: %i[ new edit lista create update destroy ]
   # GET /posts or /posts.json
   def index
-    page = params[:page].presence&.to_i || 1
     posts_on_page = 12
-    offset = (page - 1) * posts_on_page
-    @how_many_page = (Post.all.size.to_i / 12.to_f).ceil
-    if page > @how_many_page || page < 1
-      redirect_to root_path, alert: "Strona niedostępna."
+    total_posts   = Post.count
+
+    @how_many_page = [(total_posts.to_f / posts_on_page).ceil, 1].max
+
+    page = params[:page].to_i
+    page = 1 if page < 1
+
+    if page > @how_many_page
+      redirect_to root_path, alert: "Strona niedostępna." and return
     end
-    @posts = Post.limit(posts_on_page).offset(offset).order(Arel.sql("COALESCE(custom_date, updated_at) DESC"))
+
+    offset  = (page - 1) * posts_on_page
+    @posts  = Post.order(Arel.sql("COALESCE(custom_date, updated_at) DESC")).limit(posts_on_page).offset(offset)
   end
 
   # GET /posts/1 or /posts/1.json
@@ -37,7 +43,7 @@ class PostsController < ApplicationController
     @post = current_user.posts.build(post_params)
 
     if @post.save
-        redirect_to @post, notice: "Wpis stworzony pomyślnie."
+        redirect_to wpisy_path(@post), notice: "Wpis stworzony pomyślnie."
     else
         render :new, status: :unprocessable_entity
     end
@@ -52,7 +58,7 @@ class PostsController < ApplicationController
           end
         end
 
-        redirect_to @post, notice: "Wpis zaktualizowany pomyślnie."
+        redirect_to wpisy_path(@post), notice: "Wpis zaktualizowany pomyślnie."
       else
         render :edit, status: :unprocessable_entity 
       end
@@ -74,10 +80,7 @@ class PostsController < ApplicationController
   def destroy
     @post.destroy!
 
-    respond_to do |format|
-      format.html { redirect_to panel_admina_lista_wpisy_path, status: :see_other, notice: "Wpis usunięty pomyślnie." }
-      format.json { head :no_content }
-    end
+    redirect_to lista_admin_posts_path, status: :see_other, notice: "Wpis usunięty pomyślnie."
   end
 
   private

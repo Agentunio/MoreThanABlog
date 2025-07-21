@@ -15,8 +15,6 @@ class PagesTest < ApplicationSystemTestCase
     click_on "New page"
 
     fill_in "Content", with: @page.content
-    check "Published" if @page.published
-    fill_in "Slug", with: @page.slug
     fill_in "Title", with: @page.title
     click_on "Create Page"
 
@@ -29,8 +27,6 @@ class PagesTest < ApplicationSystemTestCase
     click_on "Edit this page", match: :first
 
     fill_in "Content", with: @page.content
-    check "Published" if @page.published
-    fill_in "Slug", with: @page.slug
     fill_in "Title", with: @page.title
     click_on "Update Page"
 

@@ -21,7 +21,7 @@
   post = Post.new(
     title: title,
     content: content,
-    user_id: 11
+    user_id: 1
   )
 
   post.main_image.attach(

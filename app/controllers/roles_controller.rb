@@ -20,38 +20,27 @@ class RolesController < ApplicationController
   def create
     @role = Role.new(role_params)
 
-    respond_to do |format|
       if @role.save
-        format.html { redirect_to panel_admina_path, notice: "Nowa rola utworzona" }
-        format.json { render :show, status: :created, location: @role }
+        redirect_to admin_path, notice: "Nowa rola utworzona" 
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @role.errors, status: :unprocessable_entity }
+        render :new, status: :unprocessable_entity
       end
-    end
   end
 
   # PATCH/PUT /roles/1 or /roles/1.json
   def update
-    respond_to do |format|
       if @role.update(role_params)
-        format.html { redirect_to panel_admina_path, notice: "Rola zaktualizowana" }
-        format.json { render :show, status: :ok, location: @role }
+        redirect_to admin_path, notice: "Rola zaktualizowana"
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @role.errors, status: :unprocessable_entity }
+        ender :edit, status: :unprocessable_entity 
       end
-    end
   end
 
   # DELETE /roles/1 or /roles/1.json
   def destroy
     @role.destroy!
 
-    respond_to do |format|
-      format.html { redirect_to panel_admina_path, status: :see_other, notice: "Rola usunięta" }
-      format.json { head :no_content }
-    end
+    redirect_to lista_admin_roles_path, status: :see_other, notice: "Rola usunięta" 
   end
 
   private

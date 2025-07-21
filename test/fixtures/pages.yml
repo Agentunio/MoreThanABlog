@@ -2,12 +2,8 @@
 
 one:
   title: MyString
-  slug: MyString
   content: MyText
-  published: false
 
 two:
   title: MyString
-  slug: MyString
   content: MyText
-  published: false
