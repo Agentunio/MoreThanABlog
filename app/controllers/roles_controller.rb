@@ -14,14 +14,14 @@ class RolesController < ApplicationController
 
 
   def lista
-    @roles = Role.all.order('name ASC')
+    @roles = Role.all.order("name ASC")
   end
   # POST /roles or /roles.json
   def create
     @role = Role.new(role_params)
 
       if @role.save
-        redirect_to admin_path, notice: "Nowa rola utworzona" 
+        redirect_to admin_path, notice: "Nowa rola utworzona"
       else
         render :new, status: :unprocessable_entity
       end
@@ -32,7 +32,7 @@ class RolesController < ApplicationController
       if @role.update(role_params)
         redirect_to admin_path, notice: "Rola zaktualizowana"
       else
-        ender :edit, status: :unprocessable_entity 
+        ender :edit, status: :unprocessable_entity
       end
   end
 
@@ -40,7 +40,7 @@ class RolesController < ApplicationController
   def destroy
     @role.destroy!
 
-    redirect_to lista_admin_roles_path, status: :see_other, notice: "Rola usunięta" 
+    redirect_to lista_admin_roles_path, status: :see_other, notice: "Rola usunięta"
   end
 
   private

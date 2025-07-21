@@ -10,5 +10,4 @@ class AdminController < ApplicationController
     def require_panel_permission
       require_permission(:panelpriv)
     end
-
 end

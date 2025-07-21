@@ -60,7 +60,7 @@ class PostsController < ApplicationController
 
         redirect_to wpisy_path(@post), notice: "Wpis zaktualizowany pomyślnie."
       else
-        render :edit, status: :unprocessable_entity 
+        render :edit, status: :unprocessable_entity
       end
   end
 
@@ -71,7 +71,7 @@ class PostsController < ApplicationController
     if image.purge
       redirect_to edit_post_path(@post), notice: "Zdjęcie zostało usunięte."
     else
-     render :edit, status: :unprocessable_entity , alert: "Nie znaleziono zdjęcia."
+     render :edit, status: :unprocessable_entity, alert: "Nie znaleziono zdjęcia."
     end
   end
 
@@ -95,7 +95,7 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.expect(post: [ :title, :content, :main_image, :custom_date, :user_id, gallery: [] ])
+      params.expect(post: [:title, :content, :main_image, :custom_date, :user_id, gallery: []])
     end
 
     def require_posts_permission
