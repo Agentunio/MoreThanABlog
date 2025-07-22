@@ -75,3 +75,5 @@ pl:
         one: "ma nieprawidłową długość (powinno mieć 1 znak)"
         few: "ma nieprawidłową długość (powinno mieć %{count} znaki)"
         many: "ma nieprawidłową długość (powinno mieć %{count} znaków)"
+  ancestry:
+    exclude_self: "Nie możesz przypisać strony do samej siebie"

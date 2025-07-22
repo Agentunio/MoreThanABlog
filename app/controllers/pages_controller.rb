@@ -1,6 +1,8 @@
 class PagesController < ApplicationController
   before_action :set_page, only: %i[ edit update destroy ]
-  before_action :authenticate_user!, only: %i[ new create edit update destroy ]
+  before_action :authenticate_user!, only: %i[ new create lista edit update destroy ]
+  before_action :require_pages_permission, only: %i[ new edit lista create update destroy ]
+
   # GET /pages/1 or /pages/1.json
   def show
     segments = params[:slug].to_s.split("/")
@@ -35,7 +37,7 @@ class PagesController < ApplicationController
   # PATCH/PUT /pages/1 or /pages/1.json
   def update
     if @page.update(page_params)
-      redirect_to @page, notice: "Strona została zaktualizowana."
+      redirect_to site_page_path(@page.path.map(&:slug).join("/")), notice: "Strona została zaktualizowana."
     else
       render :edit
     end
@@ -45,17 +47,25 @@ class PagesController < ApplicationController
   def destroy
     @page.destroy!
 
-    redirect_to pages_url, notice: "Strona została usunięta."
+    redirect_to lista_admin_pages_path, notice: "Strona została usunięta."
+  end
+
+  def lista
+    @pages = Page.all
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_page
-      @page = Page.friendly.find(params.expect(:slug))
+      @page = Page.friendly.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def page_params
       params.expect(page: [ :title, :content, :parent_id ])
+    end
+
+    def require_pages_permission
+      require_permission(:pagespriv)
     end
 end

@@ -63,3 +63,24 @@ footer{
   max-height: 350px;
   min-height: 350px;
 }
+.pdf{
+  position: fixed;
+  background-color: var(--my-color);
+  bottom: 20px;
+  right: 20px;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.pdf:hover{
+  width: 90px;
+  height: 90px;
+  background-color: #a0d6d4;
+}
+.pdf-icon{
+  width: 40px;
+  height: 40px;
+  transition: all 0.3s ease;
+}

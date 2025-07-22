@@ -99,7 +99,7 @@
               <% post.gallery.each do |img| %>
                 <div class="d-flex flex-column">
                   <div class="gallery-img" style="background-image: url('<%= url_for(img) %>');"></div>
-                  <%= button_to "Usuń to zdjęcie", remove_image_post_path(post, img.id), method: :delete, class: "btn mt-2" %>
+                  <%= button_to "Usuń to zdjęcie", remove_image_admin_post_path(post, img.id), method: :delete, class: "btn mt-2" %>
                 </div>
               <% end %>
             </div>

@@ -1,10 +1,13 @@
+require "sidekiq/web"
 Rails.application.routes.draw do
- 
+  mount Sidekiq::Web => "/sidekiq"
   scope path: "panel-admina", as: "admin" do
 
     get "/", to: "admin#index" 
 
-    resources :pages, path: "strony", except: %i[ show ]
+    resources :pages, path: "strony", except: %i[ show ] do
+      collection { get "lista", to: "pages#lista", as: :lista }
+    end
 
     resources :posts, path: "wpisy", except: %i[index show] do
       delete "remove_image/:image_id", to: "posts#remove_image",
@@ -28,8 +31,10 @@ Rails.application.routes.draw do
   post '/upload-image-endpoint', to: 'uploads#image'
   resources :posts, path: "wpisy", only: %i[ index show ], as: "wpisy"
 
+  post 'test', to: "posts#test"
   get "kontakt", to: "contact#index"
   post "kontakt", to: "contact#create"
+
 
   root "posts#index"
 

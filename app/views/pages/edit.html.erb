@@ -1,12 +1,12 @@
-<% content_for :title, "Editing page" %>
+<% content_for :title, "Edytuj stronę" %>
 
-<h1>Editing page</h1>
+<h1>Edytuj stronę</h1>
 
-<%= render "form", page: @page %>
+<%= render "form", page: @page, action: false %>
 
 <br>
 
 <div>
-  <%= link_to "Show this page", @page %> |
-  <%= link_to "Back to pages", pages_path %>
+  <%= link_to "Show this page", site_page_path(@page.path.map(&:slug).join("/")) %> |
+  <%= link_to "Wróc do panelu admina", admin_path %>
 </div>

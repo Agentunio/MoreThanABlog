@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_21_093244) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_22_112731) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -72,13 +72,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_21_093244) do
     t.index ["slug"], name: "index_pages_on_slug", unique: true
   end
 
+  create_table "pdfs", force: :cascade do |t|
+    t.text "url"
+    t.integer "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "posts", force: :cascade do |t|
     t.string "title"
     t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
     t.string "slug"
+    t.bigint "user_id", null: false
     t.date "custom_date"
     t.index ["slug"], name: "index_posts_on_slug", unique: true
     t.index ["user_id"], name: "index_posts_on_user_id"
@@ -92,6 +99,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_21_093244) do
     t.boolean "postspriv"
     t.boolean "rolespriv"
     t.boolean "userspriv"
+    t.boolean "pagespriv"
   end
 
   create_table "users", force: :cascade do |t|

@@ -9,5 +9,8 @@
   },
   "browserslist": [
     "defaults"
-  ]
+  ],
+  "dependencies": {
+    "puppeteer": "^24.14.0"
+  }
 }

@@ -13,13 +13,17 @@ class UserPanelController < ApplicationController
   end
 
   def update_user
-    user = User.find_by(id: params[:format])
-    role = Role.find_by(name: params[:user][:role_name])
+    if params[:role_name].present?
+      user = User.find_by(id: params[:format])
+      role = Role.find_by(name: params[:user][:role_name])
 
-    if user.update(role_id: role.id)
-      redirect_to admin_users_path, notice: "Rola zaktualizowana"
+      if user.update(role_id: role.id)
+        redirect_to admin_users_path, notice: "Rola zaktualizowana"
+      else
+        redirect_to admin_users_path, alert: "Rola niezostala zaktualizowana pomyslnie"
+      end
     else
-      redirect_to admin_users_path, alert: "Rola niezostala zaktualizowana pomyslnie"
+      redirect_to admin_users_path, alert: "Wybierz role"
     end
   end
 

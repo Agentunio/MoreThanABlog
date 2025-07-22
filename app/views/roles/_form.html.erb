@@ -38,6 +38,11 @@
     <%= form.checkbox :userspriv, class: "form-check-input" %>
   </div>
 
+  <div class="form-check">
+    <%= form.label :pagespriv, "Zarządzanie stronami", class: "form-check-label" %>
+    <%= form.checkbox :pagespriv, class: "form-check-input" %>
+  </div>
+
   <div>
     <% if action == false or nil %>
       <%= form.submit "Zapisz zmiany", class: "btn mt-2" %>

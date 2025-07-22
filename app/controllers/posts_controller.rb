@@ -21,6 +21,10 @@ class PostsController < ApplicationController
     @posts  = Post.order(Arel.sql("COALESCE(custom_date, updated_at) DESC")).limit(posts_on_page).offset(offset)
   end
 
+  def test
+    HelloJob.perform_async
+  end
+
   # GET /posts/1 or /posts/1.json
   def show
   end
@@ -69,7 +73,7 @@ class PostsController < ApplicationController
     image = @post.gallery_attachments.find(params[:image_id])
 
     if image.purge
-      redirect_to edit_post_path(@post), notice: "Zdjęcie zostało usunięte."
+      redirect_to edit_admin_post_path(@post), notice: "Zdjęcie zostało usunięte."
     else
      render :edit, status: :unprocessable_entity, alert: "Nie znaleziono zdjęcia."
     end
