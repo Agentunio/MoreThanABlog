@@ -9,11 +9,45 @@
         <li class="nav-item me-3">
           <%= link_to "Strona główna", root_path, class: "nav-link active" %>
         </li>
-       <% @nav_pages&.each do |url| %>
-        <li class="nav-item me-3">
-          <%= link_to url.title, site_page_path(url.full_slug), class: "nav-link active" %>
-        </li>
-      <% end %>
+       <% @nav_pages.each do |page| %>
+          <% dropdown = page.nav_children.any? %>
+
+          <% if dropdown %>
+            <li class="nav-item d-flex dropdown">
+              <%= link_to page.title,
+                          site_page_path(page.full_slug),
+                          class: "nav-link active",
+                          id: "nav#{page.id}" %>
+
+              <button class="nav-link dropdown-toggle border-0 bg-transparent"
+                      type="button"
+                      id="toggle#{page.id}"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                      aria-label="Rozwiń submenu dla #{page.title}">
+              </button>
+
+              <ul class="dropdown-menu" aria-labelledby="toggle#{page.id}">
+                <% page.nav_children.each do |child| %>
+                  <li>
+                    <%= link_to child.title,
+                                site_page_path(child.full_slug),
+                                class: "dropdown-item" %>
+                  </li>
+                <% end %>
+              </ul>
+            </li>
+
+
+          <% else %>
+            <li class="nav-item">
+              <%= link_to page.title,
+                          site_page_path(page.full_slug),
+                          class: "nav-link active" %>
+            </li>
+          <% end %>
+        <% end %>
+
 
        <% if user_signed_in? %>
           <% if current_user.role&.panelpriv %>

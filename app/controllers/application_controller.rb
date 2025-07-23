@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   private
 
   def load_nav_pages
-    @nav_pages = Page.in_nav
+    @nav_pages = Page.roots.in_nav.order(:title)
   end
 
   def prepare_pdf_link

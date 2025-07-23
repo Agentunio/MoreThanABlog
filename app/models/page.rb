@@ -11,6 +11,11 @@ class Page < ApplicationRecord
 
   scope :in_nav, -> { where(in_nav: true) }
 
+
+  def nav_children
+    children.in_nav.order(:title)
+  end
+  
   def full_slug
     path.map(&:slug).join("/")
   end
