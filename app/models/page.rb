@@ -9,6 +9,8 @@ class Page < ApplicationRecord
   validates :content, presence: true
   validates :slug, presence: true, uniqueness: true
 
+  scope :in_nav, -> { where(in_nav: true) }
+
   def full_slug
     path.map(&:slug).join("/")
   end

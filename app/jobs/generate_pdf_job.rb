@@ -1,22 +1,20 @@
 class GeneratePdfJob
   include Sidekiq::Job
+  sidekiq_options queue: :pdf 
+  
+  def perform(url)
+    return if Pdf.exists?(url: url)
+    
+    pdf_data = Grover.new(url).to_pdf
 
-  def perform(*args)
-    snapshot = Pdf.find(snapshot_id)
+    pdf_record = Pdf.create!(url: url) 
 
-    pdf = Grover.new(snapshot.url, print_background: true).to_pdf
-
-   snapshot.file.attach(
-      io: StringIO.new(pdf),
-      filename: "#{snapshot.url}.pdf",
-      content_type: 'application/pdf'
+    pdf_record.file.attach(
+      io: StringIO.new(pdf_data),
+      filename: "#{url}.pdf",
+      content_type: "application/pdf"
     )
-
-    snapshot.update!(status: :done)
-
-  rescue => e
-    snapshot.update!(status: :failed)
-    Rails.logger.error("PDF failed: #{e.message}")
-
   end
+
+
 end

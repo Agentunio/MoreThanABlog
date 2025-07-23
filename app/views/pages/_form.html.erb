@@ -48,6 +48,11 @@
     <%= form.collection_select :parent_id, Page.all, :id, :title, {include_blank: "Brak rodzica"}, {class: "form-select"} %>
   </div>
 
+  <div class="form-check mt-3">
+    <%= form.label :in_nav, "Strona ma być dodana do nav", class: "form-check-label" %>
+    <%= form.checkbox :in_nav, class: "form-check-input" %>
+  </div>
+
   <div>
     <% if action == false || nil %>
       <%= form.submit "Zapisz zmiany", class: "btn mt-3" %>

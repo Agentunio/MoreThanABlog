@@ -9,7 +9,13 @@
         <li class="nav-item me-3">
           <%= link_to "Strona główna", root_path, class: "nav-link active" %>
         </li>
-        <% if user_signed_in? %>
+       <% @nav_pages&.each do |url| %>
+        <li class="nav-item me-3">
+          <%= link_to url.title, site_page_path(url.full_slug), class: "nav-link active" %>
+        </li>
+      <% end %>
+
+       <% if user_signed_in? %>
           <% if current_user.role&.panelpriv %>
             <li class="nav-item me-3">
               <%= link_to "Panel admina", admin_path, class: "nav-link active" %>
@@ -29,9 +35,13 @@
             <%= link_to "Zarejestruj się", new_user_registration_path, class: "nav-link active" %>
           </li>
         <% end %>
-          <li class="nav-item me-3">
-            <%= link_to "Kontakt", kontakt_path, class: "nav-link active" %>
-          </li>
+      
+      <li class="nav-item me-3">
+        <%= link_to "Kontakt", kontakt_path, class: "nav-link active" %>
+      </li>
+      <% if user_signed_in? %>
+
+      <% end %>
       </ul>
     </div>
   </div>

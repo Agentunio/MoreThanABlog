@@ -62,7 +62,7 @@ class PagesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def page_params
-      params.expect(page: [ :title, :content, :parent_id ])
+      params.expect(page: [:title,:content,:parent_id,:in_nav])
     end
 
     def require_pages_permission

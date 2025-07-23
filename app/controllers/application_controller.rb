@@ -1,22 +1,29 @@
 class ApplicationController < ActionController::Base
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
-  after_action :pdfdownload
-
-  def pdfdownload
-    if request.format.html? && request.get?
-      url_in = Pdf.find_by(url: request.original_url)
-      if url_in.presence 
-        snapshot = Pdf.create!(url: request.original_url)
-        GeneratePdfJob.perform_async(snapshot.id)
-        @current_snapshot = snapshot
-      else
-        @current_snapshot = url_in
-      end
-    end
-  end
+  before_action :prepare_pdf_link
+  before_action :load_nav_pages
 
   private
+
+  def load_nav_pages
+    @nav_pages = Page.in_nav
+  end
+
+  def prepare_pdf_link
+    return unless request.format.html? && request.get?
+
+    current_path = request.url
+    pdf = Pdf.find_by(url: request.url)
+
+    if pdf.present? && pdf.file.attached?
+      @pdf = pdf.file
+    else
+      GeneratePdfJob.perform_async(current_path)
+    end
+
+  end
+
 
   def require_permission(privilege, strict: false)
     unless current_user&.role&.send(privilege)

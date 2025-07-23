@@ -31,7 +31,6 @@ Rails.application.routes.draw do
   post '/upload-image-endpoint', to: 'uploads#image'
   resources :posts, path: "wpisy", only: %i[ index show ], as: "wpisy"
 
-  post 'test', to: "posts#test"
   get "kontakt", to: "contact#index"
   post "kontakt", to: "contact#create"
 

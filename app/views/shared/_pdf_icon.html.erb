@@ -1,5 +1,7 @@
-<div class="pdf text-center align-content-center">
-  <%= link_to "#{@current_snapshot&.url}.pdf" do %>
-  <% image_tag("mainpage/document.png", alt: "Ikonka", class: "pdf-icon") %>
-  <% end %>
-</div>
+<% if @pdf.present? %>
+  <div class="pdf text-center align-content-center">
+    <%= link_to rails_blob_url(@pdf, disposition: "attachment") do %>
+    <% image_tag("mainpage/document.png", alt: "Ikonka", class: "pdf-icon") %>
+    <% end %>
+  </div>
+<% end %>
