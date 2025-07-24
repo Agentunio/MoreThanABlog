@@ -1,9 +1,9 @@
 require "sidekiq/web"
 Rails.application.routes.draw do
   mount Sidekiq::Web => "/sidekiq"
-  scope path: "panel-admina", as: "admin" do
+  namespace :admin, path: "panel-admina" do
 
-    get "/", to: "admin#index" 
+    get "/", to: "dashboard#index" 
 
     resources :pages, path: "strony", except: %i[ show ] do
       collection { get "lista", to: "pages#lista", as: :lista }
@@ -22,7 +22,7 @@ Rails.application.routes.draw do
     end
 
     get   "uzytkownicy",        to: "user_panel#index",        as: :users
-    patch "uzytkownicy",        to: "user_panel#update_user",  as: :users_save
+    patch "uzytkownicy/:id",        to: "user_panel#update_user",  as: :users_save
   end
 
   devise_for :users, controllers: {

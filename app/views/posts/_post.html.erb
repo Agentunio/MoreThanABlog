@@ -1,6 +1,6 @@
 <div id="<%= dom_id post %>">
   <div class="card" style="width: 18rem;">
-    <%= image_tag(post.main_image, class: "card-img-top", alt: post.title) if post.main_image.attached? %>
+    <%= image_tag(post.main_image, class: "card-img-top", alt: post.title, loading: "lazy") if post.main_image.attached? %>
     <div class="card-body">
       <h2 class="card-title m-0"><%= post.title %></h2>
       <div style="font-size: 16px; color: grey; font-style: italic;"><p class="m-0 p-0">Autor: <%= post.user.username %></p></div>

@@ -1,0 +1,12 @@
+<% content_for :title, "Edytuj stronę" %>
+
+<h1>Edytuj stronę</h1>
+
+<%= render "form", page: @page, action: false %>
+
+<br>
+
+<div>
+  <%= link_to "Pokaż tę stronę", site_page_path(@page.path.map(&:slug).join("/")) %> |
+  <%= link_to "Wróć", admin_path %>
+</div>
