@@ -1,13 +1,14 @@
-class ContactController < ApplicationController
-  def index
+class ContactsController < ApplicationController
+  def show
     @contact = Contact.new
   end
+  
   def create
     @contact = Contact.new(contact_params)
 
     if @contact.save
       ContactMailer.with(contact: @contact).form_contact.deliver_later
-      redirect_to kontakt_path, notice: "Email wysłano poprawnie"
+      redirect_to contact_path, notice: "Email wysłano poprawnie"
     else
       render :index, status: :unprocessable_entity
     end

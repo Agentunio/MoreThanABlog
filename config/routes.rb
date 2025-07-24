@@ -1,6 +1,7 @@
 require "sidekiq/web"
 Rails.application.routes.draw do
   mount Sidekiq::Web => "/sidekiq"
+
   namespace :admin, path: "panel-admina" do
 
     get "/", to: "dashboard#index" 
@@ -23,17 +24,18 @@ Rails.application.routes.draw do
 
     get   "uzytkownicy",        to: "user_panel#index",        as: :users
     patch "uzytkownicy/:id",        to: "user_panel#update_user",  as: :users_save
+
+    post '/upload-image-endpoint', to: 'uploads#image'
+
   end
 
   devise_for :users, controllers: {
     registrations: 'users/registrations'
   }
-  post '/upload-image-endpoint', to: 'uploads#image'
+
   resources :posts, path: "wpisy", only: %i[ index show ], as: "wpisy"
 
-  get "kontakt", to: "contact#index"
-  post "kontakt", to: "contact#create"
-
+  resource :contact, path: "kontakt", only: %i[ show create ]
 
   root "posts#index"
 
