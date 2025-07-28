@@ -35,28 +35,7 @@
   <%= render "layouts/navbar" %>
   </header>
   <div class="container mt-4">
-  <aside>
-  <div role="alert" id="toast-notice" style="<%= 'display: block; opacity: 1;' if notice.present? %>" aria-live="assertive" aria-atomic="true" class="toast position-fixed" data-bs-autohide="true">
-    <div class="toast-header" style="border-color: #88c5c2;">
-      <%= image_tag("mainpage/logo.png", class: "rounded me-2", alt: "Logo", style: "width: 30px; height: 30px;") %>
-      <strong class="me-auto">Wpisy o życiu</strong>
-      <button id="btn-close-toast" type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-    </div>
-    <div class="toast-body">
-      <%= notice %>
-    </div>
-  </div>
-  <div role="alert" id="toast-alert" style="border-color: #FA003F; <%= 'display: block; opacity: 1;' if alert.present? %>" aria-live="assertive" aria-atomic="true" class="toast position-fixed" data-bs-autohide="true">
-    <div class="toast-header" style="border-color: #FA003F;">
-      <%= image_tag("mainpage/logo.png", class: "rounded me-2", alt: "Logo", style: "width: 30px; height: 30px;") %>
-      <strong class="me-auto">Wpisy o życiu</strong>
-      <button id="btn-close-toast-alert" type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-    </div>
-    <div class="toast-body">
-      <%= alert %>
-    </div>
-  </div>
-  </aside>
+  <%= render "shared/notice" %>
     <main>
     <%= yield %>
     </main>

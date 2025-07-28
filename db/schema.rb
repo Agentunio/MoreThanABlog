@@ -83,8 +83,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_24_085441) do
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
     t.string "slug"
+    t.bigint "user_id", null: false
     t.date "custom_date"
     t.index ["slug"], name: "index_posts_on_slug", unique: true
     t.index ["user_id"], name: "index_posts_on_user_id"
