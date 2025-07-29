@@ -29,6 +29,10 @@ Rails.application.routes.draw do
 
   end
 
+  namespace :api do 
+    resources :posts, only: %i[ index ]
+  end
+
   devise_for :users, controllers: {
     registrations: 'users/registrations'
   }
