@@ -30,11 +30,14 @@ Rails.application.routes.draw do
   end
 
   namespace :api do 
-    resources :posts, only: %i[ index ]
+    resources :posts, only: %i[ index show ]
+    resources :pages, only: %i[ show ]
+    resources :contacts, only: %i[ create ]
   end
 
   devise_for :users, controllers: {
-    registrations: 'users/registrations'
+    registrations: 'users/registrations',
+    sessions: 'users/sessions'
   }
 
   resources :posts, path: "wpisy", only: %i[ index show ], as: "wpisy"

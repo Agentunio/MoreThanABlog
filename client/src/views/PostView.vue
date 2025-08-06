@@ -14,10 +14,9 @@ onMounted(async () => {
   }
   
   try {
-    const response = await axios.get(`http://localhost:3001/api/pages/${slug}`);
-    
-    post.value = response.data.data;
+    const response = await axios.get(`http://localhost:3001/api/posts/${slug}`);
 
+    post.value = response.data.data;
   } catch (e) {
     console.error(e);
   }

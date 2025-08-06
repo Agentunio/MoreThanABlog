@@ -1,3 +1,51 @@
+<script setup>
+import { reactive, ref } from 'vue';
+import axios from 'axios';
+
+const contact = reactive({
+  name: '',
+  email: '',
+  subject: '',
+  message: '',
+})
+
+const errors = ref([]);
+
+const submitForm = async () => {
+  errors.value = [];
+
+  if (!contact.name) errors.value.push('Imię i nazwisko jest wymagane.');
+  if (!contact.email || !contact.email.includes('@')) errors.value.push('Podaj poprawny e-mail.');
+  if (!contact.subject) errors.value.push('Temat jest wymagany.');
+  if (!contact.message) errors.value.push('Wiadomość nie może być pusta.');
+
+  if (errors.value.length > 0) return;
+
+  try {
+    
+    const response = await axios.post('http://localhost:3001/api/contacts', {
+      contact: {
+        name: contact.name,
+        email: contact.email,
+        subject: contact.subject,
+        message: contact.message,
+      },
+    });
+
+    if (response.status === 201) {
+      alert('Wiadomość została wysłana!');
+      contact.name = '';
+      contact.email = '';
+      contact.subject = '';
+      contact.message = '';
+    }
+  } catch (error) {
+    errors.value.push('Nie udało się połączyć z serwerem.');
+  }
+}
+</script>
+
+
 <template>
   <div class="container py-5">
     <h1 class="mb-4 text-center">Skontaktuj się z nami</h1>
@@ -61,51 +109,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { reactive, ref } from 'vue'
-
-const contact = reactive({
-  name: '',
-  email: '',
-  subject: '',
-  message: '',
-})
-
-const errors = ref([])
-
-const submitForm = async () => {
-  errors.value = []
-
-  // Podstawowa walidacja klienta (opcjonalna)
-  if (!contact.name) errors.value.push('Imię i nazwisko jest wymagane.')
-  if (!contact.email || !contact.email.includes('@')) errors.value.push('Podaj poprawny e-mail.')
-  if (!contact.subject) errors.value.push('Temat jest wymagany.')
-  if (!contact.message) errors.value.push('Wiadomość nie może być pusta.')
-
-  if (errors.value.length > 0) return
-
-  try {
-    const response = await fetch('/api/contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(contact),
-    })
-
-    if (!response.ok) {
-      const data = await response.json()
-      errors.value = data.errors || ['Wystąpił błąd podczas wysyłania formularza.']
-      return
-    }
-
-    alert('Wiadomość została wysłana!')
-    contact.name = ''
-    contact.email = ''
-    contact.subject = ''
-    contact.message = ''
-  } catch (error) {
-    errors.value.push('Nie udało się połączyć z serwerem.')
-  }
-}
-</script>
-

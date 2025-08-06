@@ -51,3 +51,5 @@ gem "sidekiq", "~> 8.0"
 gem "grover"
 gem "rack-cors"
 gem "jsonapi-serializer"
+gem 'devise-jwt'
+gem 'jwt'

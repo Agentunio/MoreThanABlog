@@ -14,88 +14,77 @@ import LoginView from '../views/users/LoginView.vue';
 import EditAccountView from '../views/users/EditAccountView.vue';
 import RegisterAccountView from '../views/users/RegisterAccountView.vue';
 import NewPasswordView from '../views/users/NewPasswordView.vue';
+import PostView from '../views/PostView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'home',
       component: HomeView,
     },
     {
-      path: '/o-nas',
-      name: 'O nas',
+      path: '/wpisy/:slug',
+      component: PostView,
+    },
+    {
+      path: '/:slug',
       component: PageView,
     },
     {
       path: '/panel-admina',
-      name: 'admin',
       component: DashboardView,
     },
     {
       path: '/panel-admina/wpisy/new',
-      name: 'postadd',
       component: PostsAddView,
     },
     {
       path: '/panel-admina/wpisy/lista',
-      name: 'postlista',
       component: PostsListView,
     },
     {
       path: '/panel-admina/role/new',
-      name: 'roleadd',
       component: RoleAddView
     },
     {
       path: '/panel-admina/role/lista',
-      name: 'rolelist',
       component: RolesListView
     },
     {
       path: '/panel-admina/uzytkownicy',
-      name: 'usersdashobard',
       component: UserDashboardView
     },
     {
       path: '/panel-admina/strony/new',
-      name: 'pagesadd',
       component: PagesAddView
     },
     {
       path: '/panel-admina/strony/lista',
-      name: 'pageslist',
       component: PagesListView
     },
     {
       path: '/kontakt',
-      name: 'contact',
       component: ContactView
     },
     {
       path: '/users/sign-in',
-      name: 'login',
       component: LoginView
     },
     {
       path: '/users/edit',
-      name: 'editaccount',
       component: EditAccountView
     },
     {
       path: '/users/sign_up',
-      name: 'registeraccount',
       component: RegisterAccountView
     },
     {
       path: '/users/password/new',
-      name: 'newpassword',
       component: NewPasswordView
     },
     {
-      path: '/logout',
-      name: 'logut'
+      path: '/logout'
     }
 ],
 });

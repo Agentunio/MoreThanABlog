@@ -2,6 +2,8 @@
 
 class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_sign_up_params, only: [:create]
+  skip_before_action :verify_authenticity_token
+  respond_to :json
   # before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
@@ -10,9 +12,22 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    build_resource(sign_up_params)
+
+    if resource.save
+      render json: {
+        message: 'Rejestracja pomyślna. Zaloguj się, aby kontynuować.',
+        user: resource
+      }, status: :created
+    else
+      render json: {
+        errors: resource.errors.full_messages,
+        message: 'Rejestracja nie powiodła się.'
+      }, status: :unprocessable_entity
+    end
+    
+  end
 
   # GET /resource/edit
   # def edit
@@ -59,4 +74,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
   # end
+  private
+
+  def sign_up_params
+    params.require(:user).permit(:username, :email, :password, :password_confirmation)
+  end
 end

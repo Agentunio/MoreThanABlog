@@ -51,6 +51,7 @@ footer{
   text-decoration: none;
   font-weight: bold;
   font-size: 20px;
+  border: none;
 }
 .active-pagination{
   background-color: #88c5c2b2;

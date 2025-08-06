@@ -1,3 +1,41 @@
+<script setup>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
+
+const router = useRouter();
+const email = ref('');
+const password = ref('');
+const errors = ref([]);
+
+const handleLogin = async () => {
+  errors.value = [];
+
+  try {
+    const response = await axios.post('http://localhost:3001/users/sign_in', {
+      user: {
+        email: email.value,
+        password: password.value,
+      },
+    })
+    
+    if (response.status === 200) {
+      const token = response.headers.authorization.split(' ')[1]
+      localStorage.setItem('jwt', token)
+      router.push('/')
+    }
+
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      errors.value.push('Nieprawidłowy email lub hasło.');
+    } else {
+      errors.value.push('Wystąpił błąd połączenia z serwerem.');
+    }
+  }
+}
+</script>
+
+
 <template>
   <div class="bd-example mt-3 m-0">
     <h1>Zaloguj się</h1>
@@ -34,38 +72,8 @@
     </form>
 
     <div class="mt-2">
-      <!-- Możesz użyć <router-link> jeśli korzystasz z Vue Router -->
       <RouterLink to="/users/sign_up">Nie masz konta? Zarejestruj się</RouterLink><br />
       <RouterLink to="/users/password/new">Zapomniałeś hasła?</RouterLink>
     </div>
   </div>
 </template>
-
-<script setup>
-import { ref } from 'vue'
-
-const email = ref('')
-const password = ref('')
-
-const handleLogin = async () => {
-  try {
-    const response = await fetch('/users/sign_in', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.content
-      },
-      body: JSON.stringify({
-        user: { email: email.value, password: password.value }
-      })
-    })
-
-    if (!response.ok) throw new Error('Błąd logowania')
-
-    // Możesz przekierować lub wyświetlić powiadomienie
-    window.location.href = '/panel-admina'
-  } catch (error) {
-    alert('Nieprawidłowe dane logowania.')
-  }
-}
-</script>
