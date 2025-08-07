@@ -26,7 +26,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
         message: 'Rejestracja nie powiodła się.'
       }, status: :unprocessable_entity
     end
-    
   end
 
   # GET /resource/edit
@@ -35,9 +34,23 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # PUT /resource
-  # def update
-  #   super
-  # end
+   def update
+    if resource.update_with_password(account_update_params)
+      bypass_sign_in(resource, scope: :user)
+      render json: {
+        status: { code: 200, message: 'Konto zaktualizowane pomyślnie.' },
+        data: resource
+      }
+    else
+      render json: {
+        status: {
+          code: 422,
+          message: "Błąd podczas aktualizacji konta.",
+          errors: resource.errors.full_messages
+        }
+      }, status: :unprocessable_entity
+    end
+  end
 
   # DELETE /resource
   # def destroy
@@ -74,7 +87,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
   # end
+
   private
+
+  def account_update_params
+    params.require(:user).permit(:email, :username, :password, :password_confirmation, :current_password)
+  end
 
   def sign_up_params
     params.require(:user).permit(:username, :email, :password, :password_confirmation)

@@ -12,26 +12,40 @@ const handleLogin = async () => {
   errors.value = [];
 
   try {
-    const response = await axios.post('http://localhost:3001/users/sign_in', {
+  const response = await axios.post('http://localhost:3001/users/sign_in',
+    {
       user: {
         email: email.value,
         password: password.value,
       },
-    })
-    
-    if (response.status === 200) {
-      const token = response.headers.authorization.split(' ')[1]
-      localStorage.setItem('jwt', token)
-      router.push('/')
+    },
+    {
+      headers: {
+        'Accept': 'application/json'
+      }
     }
+  );
+  const authHeader = response.headers.authorization;
 
-  } catch (error) {
-    if (error.response && error.response.status === 401) {
-      errors.value.push('Nieprawidłowy email lub hasło.');
-    } else {
-      errors.value.push('Wystąpił błąd połączenia z serwerem.');
-    }
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    const token = authHeader.split(' ')[1];
+
+    localStorage.setItem('jwt', token);
+    
+    router.push('/');
+  } else {
+    console.error("Błąd: Serwer nie zwrócił tokenu w nagłówku 'Authorization'.");
+    errors.value.push("Wystąpił nieoczekiwany błąd podczas logowania.");
   }
+
+} catch (error) {
+  if (error.response && error.response.status === 401) {
+    errors.value.push('Nieprawidłowy email lub hasło.');
+  } else {
+    console.error('Błąd logowania:', error);
+    errors.value.push('Wystąpił błąd połączenia z serwerem.');
+  }
+}
 }
 </script>
 

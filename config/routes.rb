@@ -33,6 +33,7 @@ Rails.application.routes.draw do
     resources :posts, only: %i[ index show ]
     resources :pages, only: %i[ show ]
     resources :contacts, only: %i[ create ]
+    resources :current_user, only: [:index]
   end
 
   devise_for :users, controllers: {

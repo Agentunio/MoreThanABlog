@@ -1,5 +1,27 @@
 <script setup>
 import logo from "../assets/logo.png"
+
+import { useRouter } from 'vue-router'
+import axios from 'axios'
+
+const router = useRouter()
+
+const handleLogout = async () => {
+  const token = localStorage.getItem('jwt')
+  if (token) {
+    try {
+      await axios.delete('http://localhost:3001/users/sign_out', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      })
+    } catch (error) {
+      console.error("Błąd podczas wylogowywania z serwera:", error)
+    }
+  }
+
+  localStorage.removeItem('jwt')
+  
+  router.push('/users/sign-in')
+}
 </script>
 
 <template>
@@ -24,7 +46,7 @@ import logo from "../assets/logo.png"
             <RouterLink to="/users/edit" class="nav-link active">Edytuj swoje konto</RouterLink>
           </li>
           <li class="nav-item me-3">
-            <RouterLink to="/logout" class="nav-link active">Wyloguj się</RouterLink>
+            <button @click="handleLogout" class="nav-link active">Wyloguj się</button>
           </li>
           <li class="nav-item me-3">
             <RouterLink to="/users/sign-in" class="nav-link active">Zaloguj się</RouterLink>

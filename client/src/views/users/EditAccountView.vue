@@ -1,3 +1,116 @@
+<script setup>
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import axios from 'axios'
+
+const router = useRouter()
+
+const form = ref({
+  username: '',
+  email: '',
+  password: '',
+  password_confirmation: '',
+  current_password: ''
+})
+
+const errors = ref([])
+
+const getToken = () => {
+  const token = localStorage.getItem('jwt')
+  if (!token) {
+    router.push('/login')
+    return null
+  }
+  return token
+}
+
+const fetchCurrentUser = async () => {
+  const token = getToken()
+  if (!token) return;
+
+  try {
+    const response = await axios.get('http://localhost:3001/api/current_user', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    
+    form.value.email = response.data.email;
+    form.value.username = response.data.username;
+
+  } catch (error) {
+    console.error("Nie udało się pobrać danych użytkownika:", error);
+  }
+}
+
+onMounted(() => {
+  fetchCurrentUser();
+})
+
+
+const handleUpdate = async () => {
+  errors.value = [];
+  const token = getToken();
+  if (!token) return;
+
+  const payload = {
+    user: {
+      email: form.value.email,
+      username: form.value.username,
+      current_password: form.value.current_password
+    }
+  }
+
+  if (form.value.password) {
+    payload.user.password = form.value.password
+    payload.user.password_confirmation = form.value.password_confirmation
+  }
+
+  try {
+    const response = await axios.patch('http://localhost:3001/users', payload, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/json'
+      }
+    })
+
+    if (response.status === 200) {
+      alert('Konto zostało zaktualizowane!');
+    }
+  } catch (error) {
+    if (error.response && error.response.status === 422) {
+      errors.value = error.response.data.status.errors;
+    } else {
+      errors.value.push('Wystąpił nieoczekiwany błąd serwera.');
+      console.error(error);
+    }
+  }
+}
+
+const handleDelete = async () => {
+  if (!confirm('Czy jesteś pewny, że chcesz usunąć konto? Ta operacja jest nieodwracalna.')) return;
+
+  const token = getToken()
+  if (!token) return
+
+  try {
+    const response = await axios.delete('http://localhost:3001/users', {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/json'
+      }
+    })
+
+    if (response.status === 200 || response.status === 204) {
+      alert('Konto zostało usunięte.');
+      localStorage.removeItem('jwt');
+    }
+  } catch (error) {
+    errors.value.push('Nie udało się usunąć konta. Spróbuj ponownie.');
+    console.error(error);
+  }
+}
+</script>
+
+
 <template>
   <h1>Edytuj swoje konto</h1>
   <div class="bd-example m-0">
@@ -45,67 +158,3 @@
   <h2 class="mt-4">Usuń swoje konto</h2>
     <button @click="handleDelete" class="btn" style="background-color: #FA003F">Usuń konto</button>
 </template>
-
-<script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
-
-// Załaduj dane użytkownika z propsów lub zapytania do API
-const form = ref({
-  username: '',
-  email: '',
-  password: '',
-  password_confirmation: '',
-  current_password: ''
-})
-
-const errors = ref([])
-
-const handleUpdate = async () => {
-  errors.value = []
-  try {
-    const res = await fetch('/users', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.content
-      },
-      body: JSON.stringify({ user: form.value })
-    })
-
-    if (!res.ok) {
-      const data = await res.json()
-      errors.value = data.errors || ['Coś poszło nie tak przy aktualizacji konta.']
-      return
-    }
-
-    router.push('/panel-admina')
-  } catch (err) {
-    errors.value = ['Wystąpił błąd połączenia z serwerem.']
-  }
-}
-
-const handleDelete = async () => {
-  if (!confirm('Czy jesteś pewny, że chcesz usunąć konto?')) return
-
-  try {
-    const res = await fetch('/users', {
-      method: 'DELETE',
-      headers: {
-        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.content
-      }
-    })
-
-    if (!res.ok) {
-      alert('Nie udało się usunąć konta.')
-      return
-    }
-
-    window.location.href = '/'
-  } catch (err) {
-    alert('Wystąpił błąd przy usuwaniu konta.')
-  }
-}
-</script>
