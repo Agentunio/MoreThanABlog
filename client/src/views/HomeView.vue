@@ -1,5 +1,4 @@
 <script setup>
-import mainimage from "../assets/1.jpg"
 import { ref, onMounted, computed, watch, onBeforeUnmount } from "vue";
 import { useDateFormat } from '@vueuse/core'
 import axios from 'axios';
@@ -83,7 +82,7 @@ function removeHtmlTags(html) {
   <div v-if="paginatedPosts.length === 0">Brak postów.</div>
   <div v-for="post in paginatedPosts" :key="post.id">
     <div class="card" style="width: 18rem;">
-      <img :src="mainimage" class="card-img-top" loading="lazy"/>
+      <img :src="post.attributes.main_image"  :alt="post.attributes.title" class="card-img-top" loading="lazy"/>
       <div class="card-body">
         <h2 class="card-title m-0">{{ post.attributes.title }}</h2>
         <div style="font-size: 16px; color: grey; font-style: italic;"><p class="m-0 p-0">Autor: {{ post.attributes.username }}</p></div>

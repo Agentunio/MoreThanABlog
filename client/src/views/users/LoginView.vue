@@ -1,53 +1,52 @@
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import axios from 'axios';
+import { ref, onMounted } from 'vue'
+import { useRouter }     from 'vue-router'
+import axios             from 'axios'
 
-const router = useRouter();
-const email = ref('');
-const password = ref('');
-const errors = ref([]);
+const api = axios.create({
+  baseURL: 'http://localhost:3001',
+  headers: { Accept: 'application/json' }
+})
+
+onMounted(() => {
+  const stored = localStorage.getItem('jwt')  
+  if (stored) api.defaults.headers.common.Authorization = stored
+})
+
+const router   = useRouter()
+const email    = ref('')
+const password = ref('')
+const errors   = ref([])
 
 const handleLogin = async () => {
-  errors.value = [];
+  errors.value = []
 
   try {
-  const response = await axios.post('http://localhost:3001/users/sign_in',
-    {
-      user: {
-        email: email.value,
-        password: password.value,
-      },
-    },
-    {
-      headers: {
-        'Accept': 'application/json'
-      }
+    const resp = await api.post('/users/sign_in', {  
+      user: { email: email.value, password: password.value }
+    })
+
+    const bearer = resp.headers.authorization 
+    if (!bearer?.startsWith('Bearer ')) {
+      errors.value.push('Serwer nie zwrócił tokenu.')
+      return
     }
-  );
-  const authHeader = response.headers.authorization;
 
-  if (authHeader && authHeader.startsWith('Bearer ')) {
-    const token = authHeader.split(' ')[1];
+    localStorage.setItem('jwt', bearer) 
+    api.defaults.headers.common.Authorization = bearer  
 
-    localStorage.setItem('jwt', token);
-    
-    router.push('/');
-  } else {
-    console.error("Błąd: Serwer nie zwrócił tokenu w nagłówku 'Authorization'.");
-    errors.value.push("Wystąpił nieoczekiwany błąd podczas logowania.");
+    router.push('/')    
+  } catch (err) {
+    if (err.response?.status === 401) {
+      errors.value.push('Nieprawidłowy email lub hasło.')
+    } else {
+      console.error(err)
+      errors.value.push('Błąd połączenia z serwerem.')
+    }
   }
-
-} catch (error) {
-  if (error.response && error.response.status === 401) {
-    errors.value.push('Nieprawidłowy email lub hasło.');
-  } else {
-    console.error('Błąd logowania:', error);
-    errors.value.push('Wystąpił błąd połączenia z serwerem.');
-  }
-}
 }
 </script>
+
 
 
 <template>

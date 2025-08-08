@@ -39,3 +39,4 @@
 /node_modules
 
 /Procfile.dev
+/config/credentials/development.key

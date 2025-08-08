@@ -34,6 +34,11 @@ Rails.application.routes.draw do
     resources :pages, only: %i[ show ]
     resources :contacts, only: %i[ create ]
     resources :current_user, only: [:index]
+
+    namespace :admin do
+      resources :posts, only: %i[create update destroy]
+      post '/upload-image-endpoint', to: 'uploads#image'
+    end
   end
 
   devise_for :users, controllers: {

@@ -26,13 +26,14 @@
     </table>
 
     <div>
-      <router-link to="/admin" class="btn">Wróć</router-link>
+      <RouterLink to="/panel-admina" class="btn">Wróć</RouterLink>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { RouterLink } from 'vue-router'
 
 const pages = ref([])
 
